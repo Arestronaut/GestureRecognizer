@@ -7,8 +7,14 @@ final public class GestureRecognizer<RecognizerType: UIGestureRecognizer> {
     public  typealias Handler = () -> Void
 
     // MARK: - Properties
+    public weak var delegate: UIGestureRecognizerDelegate?
+
     private var handler: Handler
-    internal lazy var recognizer: RecognizerType = .init(target: self, action: #selector(handle))
+    internal lazy var recognizer: RecognizerType = {
+        let gestureRecognizer: RecognizerType = .init(target: self, action: #selector(handle))
+        gestureRecognizer.delegate = delegate
+        return gestureRecognizer
+    }()
 
     // MARK: - Initialisation
     public init(_ handler: @escaping Handler) {
@@ -16,8 +22,6 @@ final public class GestureRecognizer<RecognizerType: UIGestureRecognizer> {
     }
 
     // MARK: - Methods
-    public func addToView(_ view: UIView) { view.addGestureRecognizer(recognizer) }
-
     @objc
     private func handle() {
         handler()
