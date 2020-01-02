@@ -4,7 +4,7 @@ import UIKit
 
 final public class GestureRecognizer<RecognizerType: UIGestureRecognizer> {
     // MARK: - Subtypes
-    public  typealias Handler = () -> Void
+    public  typealias Handler = (RecognizerType) -> Void
 
     // MARK: - Properties
     public weak var delegate: UIGestureRecognizerDelegate?
@@ -24,6 +24,6 @@ final public class GestureRecognizer<RecognizerType: UIGestureRecognizer> {
     // MARK: - Methods
     @objc
     private func handle() {
-        handler()
+        handler(recognizer)
     }
 }
